@@ -2,7 +2,6 @@
 
 ##Node HTTP Example
 
-
     var http = require('http');
     
     http.createServer(function (req, res) {
@@ -13,11 +12,9 @@
     }).listen(3000, "127.0.0.1");
     
     console.log('Server running at http://127.0.0.1:3000/');
-
 
 ##Node Socket Example
 
-
     var http = require('http');
     
     http.createServer(function (req, res) {
@@ -28,12 +25,6 @@
     }).listen(3000, "127.0.0.1");
     
     console.log('Server running at http://127.0.0.1:3000/');
-
-
-
-##NPM Create App
-
-    npm init .
 
 ##NPM Connect Static Server
 
@@ -74,8 +65,9 @@
 	
 	express new .
 	
-##Socket.io
 
+##Socket.io
+###Server.js
 	var connect = require('connect'); 
 
 	var server = connect.createServer(
@@ -83,13 +75,10 @@
 	);
 
 	server.listen(3000);
-
 	var io = require('socket.io').listen(server);
-
 
 	io.sockets.on('connection', function (socket) {
 		socket.send('Please enter a user name ...');
-
 		var userName;
 
 		socket.on('message', function(message){
@@ -108,6 +97,43 @@
 	    });
 	});
 
-	
+###index.html
+	<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+	<html>
+		<head><title>Simple Chat</title></head>
+		<body>
+			<div>
+				<p><label for="messageText">Message</label> <input type="text" id="messageText"></p>
+				<p><button id="sendButton">Send</button></p>
+			</div>
+			<div><ul id="messages"></ul></div>
+			<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+			<script type="text/javascript" src="http://code.jquery.com/jquery-1.5.2.js"></script>
+			<script type="text/javascript">
+				$(document).ready(function() {
+					var webSocket = io.connect('http://' + document.location.hostname + ':' + document.location.port);
+								
+					webSocket.on('connect', function() {
+						$('#messages').append('<li>Connected to the server.<\/li>');
+					});
+
+					webSocket.on('message', function(message) {
+						$('#messages').append('<li>' + message + '<\/li>');
+					});
+
+					webSocket.on('disconnect', function() {
+						$('#messages').append('<li>Disconnected from the server.<\/li>');
+					});
+
+					$('#sendButton').bind('click', function() {
+						var message = $('#messageText').val();
+						webSocket.send(message);
+						$('#messageText').val('');
+					});
+				});
+			</script>
+		</body>
+	</html>
+
 
 
