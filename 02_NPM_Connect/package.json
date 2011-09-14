@@ -1,0 +1,16 @@
+{
+  "author": "",
+  "name": "02_NPM_Connect",
+  "description": "Show that stuff",
+  "version": "0.0.0",
+  "repository": {
+    "url": ""
+  },
+  "engines": {
+    "node": "~v0.4.10"
+  },
+  "dependencies": {
+	"connect": "*"
+  },
+  "devDependencies": {}
+}
